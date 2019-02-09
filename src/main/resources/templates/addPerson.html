@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+
+<body>
+<!--<h2 class="hello-title" th:text="'Hello, ' + ${person.firstName} + '!'"></h2>-->
+
+<h1>Formularz</h1>
+
+<a th:href="@{/person/list}">Wróć do listy użytkowników</a></br>
+
+<a th:href="@{/home}">Wróć do strony głównej</a>
+
+<form action="#" th:action="@{/person/add}" th:object="${person}" method="post">
+
+    <p>Imię: <input type="text" th:field="*{firstName}"/>
+    <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Age Error</td>
+    </p>
+    <p>Nazwisko: <input type="text" th:field="*{lastName}"/></p>
+    <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name
+        Error</td>
+    <p>E-mail: <input type="text" th:field="*{email}"/></p>
+    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name
+        Error</td>
+
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+
+</body>
+</html>
