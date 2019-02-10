@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2 class="hello-title" th:text="${person.firstName}"></h2>
+
+<table border="1">
+<tr th:each ="message : ${person.messages}">
+    <td th:text="${message.getSubject()}"></td>
+    <td th:text="${message.getContent()}"></td>
+</tr>
+
+</table>
+
+<a th:href="@{/person/list}">Wróć do listy użytkowników</a></br>
+<a th:href="@{/person/add}">Dodaj użytkwników</a>
+
+</body>
+</html>

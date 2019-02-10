@@ -8,12 +8,13 @@
 
 <a href="/person/add" th:href="@{/person/add}">Dodaj użytkownika</a>
 
-<table>
+<table border="1">
     <tbody>
     <th>ID</th>
     <th>Imie</th>
     <th>Nazwisko</th>
     <th>Email</th>
+    <th>Team</th>
 
         <tr th:each="p : ${persons}"
             th:object="${p}" >
@@ -21,13 +22,16 @@
             <td th:text ="*{firstName}"></td>
             <td th:text ="*{lastName}"></td>
             <td th:text ="*{email}"></td>
+            <td th:text ="*{team.getName()}"></td>
             <td><a th:href="@{/person/edit/__*{id}__}">Wprowadź zmiany</a></td>
-            <td><a th:href="@{/person/delete/__*{id}__}">Usuń</a></td>
+            <td><a th:href="@{/person/delete/__*{id}__}">Usuń osobę</a></td>
 
         </tr>
 
     </tbody>
 </table>
+
+
 
 </body>
 </html>

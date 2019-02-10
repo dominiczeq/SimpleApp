@@ -1,9 +1,12 @@
 package com.example.simpleapp.controller;
 
+import com.example.simpleapp.entity.Message;
 import com.example.simpleapp.entity.Person;
 import com.example.simpleapp.repository.PersonRepository;
+import com.example.simpleapp.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +20,8 @@ public class PersonController {
 
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private TeamRepository teamRepository;
 
     @GetMapping("/add")
     public ModelAndView addPerson() {
@@ -24,7 +29,9 @@ public class PersonController {
         Person p = new Person();
         p.setFirstName("wpisz imie");
         p.setLastName("wpisz nazwisko");
+        p.setEmail("exampe@dot.com");
         modelAndView.addObject("person", p);
+        modelAndView.addObject("team", teamRepository.findAll());
         return modelAndView;
     }
 
@@ -58,9 +65,7 @@ public class PersonController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@PathVariable long id, @ModelAttribute Person personka) {
-        // ModelAndView model = new ModelAndView("personList");
         this.personRepository.setPersonDataById(personka.getFirstName(), personka.getLastName(), personka.getEmail(), id);
-        //model.addObject("person", personka);
 
         return "redirect:/person/list";
     }
@@ -70,6 +75,23 @@ public class PersonController {
     public String deletePerson(@PathVariable long id, @ModelAttribute Person person) {
         this.personRepository.deleteById(id);
         return "redirect:/person/list";
+    }
+
+    @GetMapping("/messages/{id}")
+    public String messages( @PathVariable Long id, Model model) {
+
+        model.addAttribute("person", personRepository.findFirstById(id));
+        List<Message> messages = personRepository.findFirstById(id).getMessages();
+        model.addAttribute("messages", messages);
+
+        return "messageList";
+    }
+
+    @GetMapping("/search/{name}")
+    public String search(@PathVariable String name, Model model) {
+        Iterable<Person> personIterableByName = personRepository.findByFirstNameLike(name + "%");
+        model.addAttribute("persons", personIterableByName);
+        return "personList";
     }
 }
 

@@ -16,15 +16,22 @@
 
 <form action="#" th:action="@{/person/add}" th:object="${person}" method="post">
 
-    <p>Imię: <input type="text" th:field="*{firstName}"/>
+    <p>Imię: <input type="text" required="true" th:field="*{firstName}"/>
     <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Age Error</td>
     </p>
-    <p>Nazwisko: <input type="text" th:field="*{lastName}"/></p>
+    <p>Nazwisko: <input type="text" required="true" th:field="*{lastName}"/></p>
     <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name
         Error</td>
-    <p>E-mail: <input type="text" th:field="*{email}"/></p>
+    <p>E-mail: <input type="text" required="true" th:field="*{email}"/></p>
     <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name
         Error</td>
+
+    <p>Team: <select th:field="*{team}">
+        <option th:each="type : ${team}"
+                th:value="${type.id}"
+                th:text="${type.getName()}">Wireframe</option>
+    </select>
+    </p>
 
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
